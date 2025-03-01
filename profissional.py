@@ -1,53 +1,53 @@
 import json
+from abc import ABC, abstractmethod
 
-class CRUD:
-    __objetos = []
+class CRUD(ABC):
+    objetos = []
 
     @classmethod
     def Inserir(cls, obj):
         id = 0
-        for i in cls.__objetos:
+        for i in cls.objetos:
             if i.get_id() > id:
                 id = i.get_id()
         obj.set_id(id + 1)
-        cls.__objetos.append(obj)
-        obj.Salvar()
+        cls.objetos.append(obj)
+        cls.Salvar() # precisa ser CLS, pois vai acionar a classe específica seja Profissional ou outra
     
     @classmethod
     def Listar(cls):
-        CRUD.Abrir()
-        return cls.__objetos
+        for i in cls.objetos:
+            print(i)
+        return cls.objetos
     
     @classmethod
     def Listar_id(cls, obj):
-        for i in cls.__objetos:
+        for i in cls.objetos:
             if i.get_id() == obj.get_id():
                 return i
     
     @classmethod
     def Excluir(cls, obj):
-        CRUD.Abrir()
         objeto = CRUD.Listar_id(obj)
-        cls.__objetos.remove(objeto)
-        obj.Salvar() #mudança
-    
+        cls.objetos.remove(objeto)
+
     @classmethod
+    @abstractmethod
     def Atualizar(cls):
         pass
 
     @classmethod
+    @abstractmethod
     def Abrir(cls):
         pass
 
     @classmethod
+    @abstractmethod
     def Salvar(cls):
         pass
 
-    @classmethod #pode isso? adiconado
-    def get_objetos(self):
-        return self.__objetos
-
-class Profissional(CRUD):
+        
+class Profissional:
     def __init__(self, id, nome, especialidade, conselho, email, senha):
         self.__id = id
         self.__nome = nome
@@ -116,41 +116,43 @@ class Profissional(CRUD):
     
     def __str__(self):
         return f'{self.__id} - {self.__nome} - {self.__email} - {self.__especialidade} - {self.__conselho} - {self.__senha} '
-    
+
+
+class Profissionais(CRUD):
     @classmethod
-    def Atualizar(cls,obj):
-        p = Profissional.Listar_id(obj)
+    def Atualizar(cls, obj):
+        p = Profissionais.Listar_id(obj)
         p.set_id(obj.get_id())
         p.set_nome(obj.get_nome())
-        p.set_email(obj.get_email())
         p.set_especialidade(obj.get_especialidade())
+        p.set_email(obj.get_email())
         p.set_conselho(obj.get_conselho())
         p.set_senha(obj.get_senha())
-        obj.Salvar() #mudança
-
+    
+    @classmethod
+    def Salvar(cls):
+        with open("profissionais.json", mode='w') as file:
+            json.dump([vars(obj) for obj in cls.objetos], file, default=vars, indent=1)
+    
     @classmethod
     def Abrir(cls):
         try:
-            with open("profissionais.json", mode="r") as file:
+            with open("profisisonais.json", mode="r") as file:
                 texto = json.load(file)
-                for obj in texto:
-                    p = Profissional(obj["_Profissional__id"],obj["_Profissional__nome"],obj["_Profissional__especialidade"],obj["_Profissional__conselho"],obj["_Profissional__email"],obj["_Profissional__senha"],)
-                    lista = cls.get_objetos()
-                    lista.append(p)
+                for i in texto:
+                    p = Profissional(i["_Profisisonal__id"],i["_Profisisonal__nome"],i["_Profisisonal__especialidade"],i["_Profisisonal__conselho"],i["_Profisisonal__email"],i["_Profisisonal__senha"])
+                    cls.objetos.append(p)
         except FileNotFoundError:
             pass
 
-    @classmethod
-    def Salvar(cls):
-        with open("profissionais.json", mode="w") as file:
-            json.dump([vars(obj) for obj in cls.get_objetos()], file, default=vars, indent=1) # n sei 
+
+joao = Profissional(0,"João",2,3,4,5)
+pedro = Profissional(0,"Pedro",2,3,4,5)
+Profissionais.Inserir(joao)
+Profissionais.Inserir(pedro)
+#pedroV2 = Profissional(2,"PedroV2",2,3,4,5)
+#Profissionais.Atualizar(pedroV2)
+Profissionais.Listar()
 
 
-joao = Profissional(0,"João Pedro","Médico","CRM","joão@gmail.com","Teste#1234")
-pedro = Profissional(0,1,2,3,4,5)
-
-
-
-
-Profissional.Inserir(joao)
-Profissional.Inserir(pedro)
+   
