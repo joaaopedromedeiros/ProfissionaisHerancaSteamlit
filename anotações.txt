@@ -1,0 +1,6 @@
+Toda classe abstrata pode ser utilizada com classmethod, abstractmethod, por instância (self), etc.
+Se for abstractmethod você apenas informa que as classes filhas vão precisar definir o que esse método vai fazer.
+
+
+Rodar streamlit:
+streamlit run ManterProfissional.py

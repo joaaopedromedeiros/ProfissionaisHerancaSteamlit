@@ -6,13 +6,5 @@
   "_Profissional__conselho": 3,
   "_Profissional__email": 4,
   "_Profissional__senha": 5
- },
- {
-  "_Profissional__id": 2,
-  "_Profissional__nome": "Pedro",
-  "_Profissional__especialidade": 2,
-  "_Profissional__conselho": 3,
-  "_Profissional__email": 4,
-  "_Profissional__senha": 5
  }
 ]

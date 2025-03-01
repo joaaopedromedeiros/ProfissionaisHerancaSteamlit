@@ -6,13 +6,14 @@ class CRUD(ABC):
 
     @classmethod
     def Inserir(cls, obj):
+        cls.Abrir()
         id = 0
         for i in cls.objetos:
             if i.get_id() > id:
                 id = i.get_id()
         obj.set_id(id + 1)
         cls.objetos.append(obj)
-        cls.Salvar() # precisa ser CLS, pois vai acionar a classe específica seja Profissional ou outra
+        cls.Salvar() # precisa ser CLS, pois vai acionar a classe específica seja Profissional ou outra que estiver executando
     
     @classmethod
     def Listar(cls):
@@ -30,6 +31,7 @@ class CRUD(ABC):
     def Excluir(cls, obj):
         objeto = CRUD.Listar_id(obj)
         cls.objetos.remove(objeto)
+        cls.Salvar()
 
     @classmethod
     @abstractmethod
@@ -128,6 +130,7 @@ class Profissionais(CRUD):
         p.set_email(obj.get_email())
         p.set_conselho(obj.get_conselho())
         p.set_senha(obj.get_senha())
+        cls.Salvar()
     
     @classmethod
     def Salvar(cls):
@@ -150,9 +153,12 @@ joao = Profissional(0,"João",2,3,4,5)
 pedro = Profissional(0,"Pedro",2,3,4,5)
 Profissionais.Inserir(joao)
 Profissionais.Inserir(pedro)
-#pedroV2 = Profissional(2,"PedroV2",2,3,4,5)
-#Profissionais.Atualizar(pedroV2)
+pedroV2 = Profissional(2,"PedroV2",2,3,4,5)
+Profissionais.Atualizar(pedroV2)
+Profissionais.Excluir(pedroV2)
 Profissionais.Listar()
+
+# falta apenas conseguir captura os dados do json, pois ele sempre reinicia
 
 
    
