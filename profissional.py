@@ -149,14 +149,49 @@ class Profissionais(CRUD):
             pass
 
 
-joao = Profissional(0,"João",2,3,4,5)
-pedro = Profissional(0,"Pedro",2,3,4,5)
-Profissionais.Inserir(joao)
-Profissionais.Inserir(pedro)
-pedroV2 = Profissional(2,"PedroV2",2,3,4,5)
-Profissionais.Atualizar(pedroV2)
-Profissionais.Excluir(pedroV2)
-Profissionais.Listar()
+#joao = Profissional(0,"João",2,3,4,5)
+#pedro = Profissional(0,"Pedro",2,3,4,5)
+#Profissionais.Inserir(joao)
+#Profissionais.Inserir(pedro)
+#pedroV2 = Profissional(2,"PedroV2",2,3,4,5)
+#Profissionais.Atualizar(pedroV2)
+#Profissionais.Excluir(pedroV2)
+#Profissionais.Listar()
+
+class Views:
+
+    @classmethod
+    def Profissionais_Listar(cls):
+        return Profissionais.Listar()
+    
+    @classmethod
+    def Profissionais_Inserir(cls, nome, especialidade, conselho, email, senha):
+        p = Profissional(0,nome, especialidade, conselho, email, senha)
+        Profissionais.Inserir(p)
+        return
+    
+    @classmethod
+    def Profisisonais_Excluir(cls, id):
+        for i in Profissionais.Listar():
+            if i.get_id() == id:
+                Profissionais.Excluir(i)
+        return
+    
+    @classmethod
+    def Profissionais_Atualizar(cls, id, nome, especialidade, conselho, email, senha):
+        p = Profissional(id,nome,especialidade,conselho,email, senha)
+        Profissionais.Atualizar(p)
+        return
+    
+
+Views.Profissionais_Inserir("João Pedro","Desenvolvedor Web","Havard","joaodev@gmaiil.com","Teste#1234")
+Views.Profissionais_Atualizar(1,"João Pedro Dev","Desenvolvedora Web","Havard","joaodev@gmail.com","Teste#1234")
+Views.Profissionais_Listar()
+#Views.Profisisonais_Excluir(1)
+
+
+                
+
 
 # falta apenas conseguir captura os dados do json, pois ele sempre reinicia
 
