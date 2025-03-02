@@ -201,11 +201,27 @@ class ManterPerfil:
     def Atualizar(cls):
         lista = Views.Perfis_Listar()
         st.header("Atualizar perfis")
-        st.selectbox("Perfis registrados no sistema",lista)
+        perfil = st.selectbox("Perfis registrados no sistema",lista)
+        nome = st.text_input("Novo nome")
+        descricao = st.text_input("Nova descrição")
+        beneficios = st.text_input("Novos benefícios")
+        if st.button("Atualizar cliente"):
+            Views.Perfis_Atualizar(perfil.get_id(),nome,descricao,beneficios)
+            st.success("Perfil Atualizado")
+            st.rerun()
+
     
     @classmethod
     def Excluir(cls):
         st.header("Excluir Perfis")
+        lista = Views.Perfis_Listar()
+        perfil = st.selectbox("Alunos cadastrados",lista)
+
+        if st.button("Excluir perfil selecionado"):
+            Views.perfis_Excluir(perfil.get_id())
+            st.success("Perfil excluido com sucesso")
+            st.rerun()
+
 
 ManterPerfil.Main()
 
