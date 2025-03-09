@@ -1,0 +1,14 @@
+#class numDiasError(Exception):
+#    def __init__(self, dias):
+#        self.dias = dias
+    
+#   def __str__(self):
+#        return f'A quantidade invalida de dias foi:  {self.dias}'
+
+#raise numDiasError(32)
+
+
+O abriir tem a classe cls.objetos = [] antes do try
+cls.Abrir() --> Inserir, listagens
+cls.Salvar() --> Tudo que modifica --> Inserir, atualizar, excluir
+Não tem erro, apenas segue o diagrama
